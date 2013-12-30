@@ -380,6 +380,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch.17 - Test and Scratch", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch.18 - Test and Scratch", "Ch.18\Ch.18 - Test and Scratch\Ch.18 - Test and Scratch.vcxproj", "{68E25CE4-DB3A-48E1-82AD-80BE41EA51ED}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch.17 - _Review Questions", "Ch.17\Ch.17 - _Review Questions\Ch.17 - _Review Questions.vcxproj", "{2F348B6E-2591-48BF-8E72-8AB5B1F9C0D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1022,12 +1024,17 @@ Global
 		{68E25CE4-DB3A-48E1-82AD-80BE41EA51ED}.Debug|Win32.Build.0 = Debug|Win32
 		{68E25CE4-DB3A-48E1-82AD-80BE41EA51ED}.Release|Win32.ActiveCfg = Release|Win32
 		{68E25CE4-DB3A-48E1-82AD-80BE41EA51ED}.Release|Win32.Build.0 = Release|Win32
+		{2F348B6E-2591-48BF-8E72-8AB5B1F9C0D7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2F348B6E-2591-48BF-8E72-8AB5B1F9C0D7}.Debug|Win32.Build.0 = Debug|Win32
+		{2F348B6E-2591-48BF-8E72-8AB5B1F9C0D7}.Release|Win32.ActiveCfg = Release|Win32
+		{2F348B6E-2591-48BF-8E72-8AB5B1F9C0D7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F9DC2B01-2631-47FC-9D89-C40E4204C4F7} = {D513E3E5-4A86-42CE-8148-DBE1795E6CBF}
+		{2F348B6E-2591-48BF-8E72-8AB5B1F9C0D7} = {D513E3E5-4A86-42CE-8148-DBE1795E6CBF}
 		{68E25CE4-DB3A-48E1-82AD-80BE41EA51ED} = {957780FC-7C8B-45D0-8079-F1ED0680E5A6}
 		{F3EDEB69-B528-4492-80E0-D2570E1593E7} = {E1ACE5A1-7821-4F78-AD7A-0F20EF427A83}
 		{683CDC68-6009-4B85-978F-5316642B270F} = {E1ACE5A1-7821-4F78-AD7A-0F20EF427A83}

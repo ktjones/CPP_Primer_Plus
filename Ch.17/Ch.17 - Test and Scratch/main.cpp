@@ -11,10 +11,7 @@
 //*******************************
 
 #include <iostream>
-#include <fstream>
-#include <random>
-#include <algorithm>
-#include <vector>
+#include <cstdio>
 
 using namespace std;
 
@@ -58,31 +55,22 @@ using namespace std;
 int main(int nNumberofArgs, char* pszArgs[])
 {
 	//*  Variable Declaration
-	vector<int> vq;
-
-	random_device rd;
+	
 	
 
 	//*  Main Code
-	for (int x = 0; x < 10; x++)
+	cout << "This system can generate up to " << TMP_MAX
+		<< " temporary names of up to " << L_tmpnam
+		<< " characters." << endl;
+
+	char pszName[L_tmpnam] = { '\0' };
+
+	cout << "Here are the ten names:" << endl;
+
+	for (int i = 0; 10 > i; i++)
 	{
-		vq.push_back(x);
-	}
-
-	for (auto x : vq)
-	{
-		cout << x << ", ";
-
-	}
-
-	shuffle(vq.begin(), vq.end(), rd);
-
-	cout << endl << endl;
-
-	for (auto x : vq)
-	{
-		cout << x << ", ";
-
+		tmpnam(pszName);
+		cout << pszName << endl;
 	}
 
 	//*  Program End

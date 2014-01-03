@@ -45,8 +45,9 @@ using namespace std;
 //********************************
 
 char menu();
-void createEmployee(char etype, vector<abstr_emp *> & v);
-
+void createFile(ofstream & fi, ifstream & fo, const string & fn);
+void addEmployee(char etype, vector<abstr_emp *> & v);
+void showEmployee(vector<abstr_emp *> & v);
 
 
 //***************************************************************************************************
@@ -59,14 +60,17 @@ int main(int nNumberofArgs, char* pszArgs[])
 {
 	//*  Standard Variable Declaration
 	char menuchoice = '\0';
-
-
+	string filename = "employee.txt";
 
 	//*  Object Declaration
+	vector<abstr_emp *> empin;
 	vector<abstr_emp *> emp;
-	fstream finout;
-	finout.open("employee.txt", ios_base::in | ios_base::out);
+	
+	ofstream fin;
+	ifstream fout;
 
+	fin.open(filename);
+	fout.open(filename);
 
 	//*  Main Code
 	
@@ -78,28 +82,34 @@ int main(int nNumberofArgs, char* pszArgs[])
 		switch (menuchoice)
 		{
 
-			case 'A':	
+			case 'A':
 				cout << endl;
-				cout << "You have chosen to create an EMPLOYEE!" << endl;
-				createEmployee(menuchoice, emp);
+				cout << "You have chosen to create a new data file! (warning, this will erase everything!)" << endl;
+				createFile(fin, fout, filename);
 				break;
 			case 'B':	
 				cout << endl;
-				cout << "You have chosen to create an MANAGER!" << endl;
-				createEmployee(menuchoice, emp);
+				cout << "You have chosen to create an EMPLOYEE!" << endl;
+				addEmployee(menuchoice, emp);
 				break;
-			case 'C': 
+			case 'C':	
 				cout << endl;
-				cout << "You have chosen to create an FINK!" << endl;
-				createEmployee(menuchoice, emp);
+				cout << "You have chosen to create an MANAGER!" << endl;
+				addEmployee(menuchoice, emp);
 				break;
 			case 'D': 
 				cout << endl;
-				cout << "You have chosen to create an HIGH FINK!" << endl;
-				createEmployee(menuchoice, emp);
+				cout << "You have chosen to create an FINK!" << endl;
+				addEmployee(menuchoice, emp);
 				break;
 			case 'E': 
-				cout << "Case E" << endl << endl;
+				cout << endl;
+				cout << "You have chosen to create an HIGH FINK!" << endl;
+				addEmployee(menuchoice, emp);
+				break;
+			case 'F': 
+				cout << "You Have Chosen to Review Your Data:" << endl << endl;
+				showEmployee(emp);
 				break;
 			case 'Q': 
 				cout << "Quitter" << endl << endl;
@@ -107,11 +117,8 @@ int main(int nNumberofArgs, char* pszArgs[])
 
 		}
 
-
-		
 	}
-	
-		
+			
 	//*  Program End
 	//   - wait until user is ready before terminating program
 	//   - to allow the user to see the program results
@@ -129,7 +136,52 @@ int main(int nNumberofArgs, char* pszArgs[])
 
 //********************************
 //
-//	Function #1 - Menu Selection
+//	Function #1
+//
+//********************************
+
+void createFile(ofstream & fi, ifstream & fo, const string & fn)
+{
+
+	//*  Variable Declaration
+
+
+
+	//*  Main Code
+	if (fi.is_open() || fo.is_open())
+	{
+		
+		fi.clear();
+		fo.clear();
+		fi.close();
+		fo.close();
+		fi.open(fn);
+		fo.open(fn);
+		fi.close();
+		fo.close();
+	}
+	else
+	{
+
+		fi.open(fn);
+		fi.close();
+		fo.open(fn);
+		fo.close();
+
+	}
+
+	cout << endl << endl;
+	cout << "The new file : " << fn << "has been created!";
+	
+	//*  Program End
+
+	return;
+
+}
+
+//********************************
+//
+//	Function #2 - Menu Selection
 //
 //********************************
 
@@ -143,11 +195,12 @@ char menu()
 	system("CLS");
 	cout << "Here are your menu choices: " << endl << endl;
 	
-	cout << "a) Add a new EMPLOYEE entry" << endl;
-	cout << "b) Add a new MANAGER entry" << endl;
-	cout << "c) Add a new FINK entry" << endl;
-	cout << "d) Add a new HIGH FINK entry" << endl;
-	cout << "e) Display all entries" << endl;
+	cout << "a) Create a new file" << endl;
+	cout << "b) Add a new EMPLOYEE entry" << endl;
+	cout << "c) Add a new MANAGER entry" << endl;
+	cout << "d) Add a new FINK entry" << endl;
+	cout << "e) Add a new HIGH FINK entry" << endl;
+	cout << "f) Display all entries" << endl;
 	cout << "q) quit" << endl;
 	
 	cout << endl;
@@ -156,7 +209,7 @@ char menu()
 
 	input = tolower(input);
 
-	if ((input < 'a' || input > 'e') && input != 'q')
+	if ((input < 'a' || input > 'f') && input != 'q')
 	{
 		input = 'q';
 	}
@@ -170,11 +223,11 @@ char menu()
 
 //********************************
 //
-//	Function #2
+//	Function #3
 //
 //********************************
 
-void createEmployee(char etype, vector<abstr_emp *> & v)
+void addEmployee(char etype, vector<abstr_emp *> & v)
 {
 
 	//*  Variable Declaration
@@ -184,17 +237,9 @@ void createEmployee(char etype, vector<abstr_emp *> & v)
 	string rpo;		//reportsto		/ fink & highfink types
 	int ico = 0;	//inchargeof	/ manager & highfink types
 	
-	//abstr_emp * temp = nullptr;	
-
 	//*  Main Code
 	
 	// Enter basic information for all employees
-	cout << "First Name: ";
-	getline(cin, fn);
-	cout << "Last Name: ";
-	getline(cin, ln);
-	cout << "Job Name: ";
-	getline(cin, j);
 	
 	// Enter the specific information for the title chosen
 	switch (etype)
@@ -202,47 +247,66 @@ void createEmployee(char etype, vector<abstr_emp *> & v)
 
 		case 'A':	//employee
 		{
-			employee * tempe = new employee(fn, ln, j);
+			employee * tempe = new employee();
+			tempe->SetAll();
 			v.push_back(tempe);
 			break;
 		}
 		case 'B':	//manager
 		{
-			cout << "In charge of how many people: ";
-			cin >> ico;
-			manager * tempm = new manager(fn, ln, j, ico);
+			manager * tempm = new manager();
+			tempm->SetAll();
 			v.push_back(tempm);
 			break;
 		}
 		case 'C':	//fink
 		{
-			cout << "Reports To: ";
-			getline(cin, rpo);
-			fink * tempf = new fink(fn, ln, j, rpo);
+			fink * tempf = new fink();
+			tempf->SetAll();
 			v.push_back(tempf);
 			break;
 		}
 		case 'D':	//high fink
 		{
-			cout << "Reports To: ";
-			getline(cin, rpo);
-			cout << "In charge of how many people: ";
-			cin >> ico;
-			highfink * temphf = new highfink(fn, ln, j, rpo, ico);
+			highfink * temphf = new highfink();
+			temphf->SetAll();
 			v.push_back(temphf);
 			break;
 		}
 	}
-	
-	// Push the info into the vector
-	//v.push_back(temp);
 	
 	//*  Program End
 	return;
 
 }
 
+//********************************
+//
+//	Function #4 - Show Vector Data
+//
+//********************************
 
+void showEmployee(vector<abstr_emp *> & v)
+{
+
+	//*  Variable Declaration
+	
+
+	//*  Main Code
+
+	for (auto x : v)
+	{
+
+		x->ShowAll();
+		cout << endl << endl;
+
+	}
+
+	//*  Program End
+
+	return;
+
+}
 
 
 //********************************

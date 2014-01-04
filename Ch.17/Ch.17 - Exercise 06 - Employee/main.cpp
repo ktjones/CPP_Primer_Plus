@@ -44,6 +44,10 @@ using namespace std;
 //
 //********************************
 
+char mainMenu();
+void initialRun(ofstream & fo, const string & fn);
+void subsequentRun();
+
 char menu();
 void createFile(ofstream & fi, ifstream & fo, const string & fn);
 void addEmployee(char etype, vector<abstr_emp *> & v);
@@ -60,10 +64,10 @@ int main(int nNumberofArgs, char* pszArgs[])
 {
 	//*  Standard Variable Declaration
 	char menuchoice = '\0';
+	
 	string filename = "employee.txt";
 
 	//*  Object Declaration
-	vector<abstr_emp *> empin;
 	vector<abstr_emp *> emp;
 	
 	ofstream fin;
@@ -77,39 +81,26 @@ int main(int nNumberofArgs, char* pszArgs[])
 	while (menuchoice != 'Q')
 	{
 
-		menuchoice = menu();
-
+		menuchoice = mainMenu();
+				
 		switch (menuchoice)
 		{
 
 			case 'A':
 				cout << endl;
-				cout << "You have chosen to create a new data file! (warning, this will erase everything!)" << endl;
-				createFile(fin, fout, filename);
+				cout << "You have chosen Initial Data Creation!" << endl;
+				cout << "(warning, this will erase anything previously done!)" << endl;
+				
+				cout << endl;
+				system("PAUSE");
+				cout << endl;
+
+				initialRun();
 				break;
 			case 'B':	
 				cout << endl;
-				cout << "You have chosen to create an EMPLOYEE!" << endl;
-				addEmployee(menuchoice, emp);
-				break;
-			case 'C':	
-				cout << endl;
-				cout << "You have chosen to create an MANAGER!" << endl;
-				addEmployee(menuchoice, emp);
-				break;
-			case 'D': 
-				cout << endl;
-				cout << "You have chosen to create an FINK!" << endl;
-				addEmployee(menuchoice, emp);
-				break;
-			case 'E': 
-				cout << endl;
-				cout << "You have chosen to create an HIGH FINK!" << endl;
-				addEmployee(menuchoice, emp);
-				break;
-			case 'F': 
-				cout << "You Have Chosen to Review Your Data:" << endl << endl;
-				showEmployee(emp);
+				cout << "You have chosen to add data to an existing file" << endl;
+				subsequentRun();
 				break;
 			case 'Q': 
 				cout << "Quitter" << endl << endl;
@@ -136,7 +127,120 @@ int main(int nNumberofArgs, char* pszArgs[])
 
 //********************************
 //
-//	Function #1
+//	Function #? - Main Menu Selection
+//
+//********************************
+
+char mainMenu()
+{
+
+	//*  Variable Declaration
+	char input = '\0';
+
+	//*  Main Code
+	system("CLS");
+	
+	cout << "Welcome to the main menu.  Please select one of the following: " << endl;
+
+	cout << "a) Initial Data Creation" << endl;
+	cout << "b) Add New Data" << endl;
+	cout << "q) Exit program" << endl;
+
+	cout << endl;
+	cout << "What is your choice: ";
+	cin >> input;
+
+	input = tolower(input);
+
+	if ((input < 'a' || input > 'b') && input != 'q')
+	{
+		input = 'q';
+	}
+
+	cin.get();
+
+	//*  Program End
+	return toupper(input);
+
+}
+
+//********************************
+//
+//	Function #2
+//
+//********************************
+
+void initialRun(ofstream & fo, const string & fn)
+{
+
+	//*  Variable Declaration
+	char choice = '\0';
+	vector<abstr_emp *> empin;
+
+	//*  Main Code
+
+	// Data Collection Sequence
+	while (choice != 'Q')
+	{
+
+		choice = menu();
+		
+		if (choice != 'Q')
+		{
+			cout << endl;
+			addEmployee(choice, empin);
+		}
+		
+	}
+
+	// Display Data Entries
+	showEmployee(empin);
+
+	// Write Data to New File
+	fo.open(fn);
+
+	if (!fo.is_open())
+	{
+
+		cerr << "Could Not Open " << fn << endl;
+		fo.clear();
+		
+	}
+	else
+	{
+
+		
+
+	}
+
+	//*  Program End
+	
+	return;
+
+}
+
+//********************************
+//
+//	Function #3
+//
+//********************************
+
+void subsequentRun()
+{
+
+	//*  Variable Declaration
+
+	//*  Main Code
+
+	//*  Program End
+
+
+
+}
+
+//********************************
+//
+//	Function #?
 //
 //********************************
 
@@ -159,6 +263,7 @@ void createFile(ofstream & fi, ifstream & fo, const string & fn)
 		fo.open(fn);
 		fi.close();
 		fo.close();
+
 	}
 	else
 	{
@@ -171,7 +276,7 @@ void createFile(ofstream & fi, ifstream & fo, const string & fn)
 	}
 
 	cout << endl << endl;
-	cout << "The new file : " << fn << "has been created!";
+	cout << "The new file named " << fn << " has been created!";
 	
 	//*  Program End
 
@@ -193,15 +298,13 @@ char menu()
 	
 	//*  Main Code
 	system("CLS");
-	cout << "Here are your menu choices: " << endl << endl;
+	cout << "Add data Menu Choices: " << endl << endl;
 	
-	cout << "a) Create a new file" << endl;
-	cout << "b) Add a new EMPLOYEE entry" << endl;
-	cout << "c) Add a new MANAGER entry" << endl;
-	cout << "d) Add a new FINK entry" << endl;
-	cout << "e) Add a new HIGH FINK entry" << endl;
-	cout << "f) Display all entries" << endl;
-	cout << "q) quit" << endl;
+	cout << "a) Add a new EMPLOYEE entry" << endl;
+	cout << "b) Add a new MANAGER entry" << endl;
+	cout << "c) Add a new FINK entry" << endl;
+	cout << "d) Add a new HIGH FINK entry" << endl;
+	cout << "q) Quit data entry and return to main menu" << endl;
 	
 	cout << endl;
 	cout << "What is your choice: ";
@@ -209,7 +312,7 @@ char menu()
 
 	input = tolower(input);
 
-	if ((input < 'a' || input > 'f') && input != 'q')
+	if ((input < 'a' || input > 'd') && input != 'q')
 	{
 		input = 'q';
 	}
@@ -307,7 +410,6 @@ void showEmployee(vector<abstr_emp *> & v)
 	return;
 
 }
-
 
 //********************************
 //

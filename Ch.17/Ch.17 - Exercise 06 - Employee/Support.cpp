@@ -66,6 +66,17 @@ void abstr_emp::SetAll() // prompts user for values
 
 }
 
+void abstr_emp::WriteAll(std::ofstream & os) // prompts user for values
+{
+
+	os << fname << endl;
+	os << lname << endl;
+	os << job << endl;
+	
+	return;
+
+}
+
 std::ostream & operator<<(std::ostream & os, const abstr_emp & e)
 {
 
@@ -103,6 +114,14 @@ void employee::SetAll()
 {
 
 	abstr_emp::SetAll();
+
+}
+
+void employee::WriteAll(std::ofstream & os) // writes values to file
+{
+
+	abstr_emp::WriteAll(os);
+
 }
 
 /*****************************************************************************/
@@ -148,6 +167,14 @@ void manager::SetAll()
 
 }
 
+void manager::WriteAll(std::ofstream & os)
+{
+
+	abstr_emp::WriteAll(os);
+	os << inchargeof << endl;
+
+}
+
 /*****************************************************************************/
 // class fink: virtual public abstr_emp
 
@@ -188,6 +215,14 @@ void fink::SetAll()
 	abstr_emp::SetAll();
 	cout << "RPO? ";
 	cin >> reportsto;
+
+}
+
+void fink::WriteAll(std::ofstream & os) // writes values to file
+{
+
+	abstr_emp::WriteAll(os);
+	os << reportsto << endl;
 
 }
 
@@ -245,5 +280,14 @@ void highfink::SetAll()
 	cin >> InChargeOf();
 	cout << "RPO? ";
 	cin >> ReportsTo();
+
+}
+
+void highfink::WriteAll(std::ofstream & os)
+{
+
+	abstr_emp::WriteAll(os);
+	os << InChargeOf() << endl;
+	os << ReportsTo() << endl;
 
 }

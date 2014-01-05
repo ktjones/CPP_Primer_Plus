@@ -45,12 +45,10 @@ using namespace std;
 //********************************
 
 char mainMenu();
-void initialRun(ofstream & fo, const string & fn);
-void subsequentRun();
-
 char menu();
-void createFile(ofstream & fi, ifstream & fo, const string & fn);
-void addEmployee(char etype, vector<abstr_emp *> & v);
+void initialRun(ofstream & fo, const string & fn, vector<abstr_emp *> & v);
+void subsequentRun(ofstream & fo, ifstream & fi, const string & fn, vector<abstr_emp *> & v);
+void addEmployee(char etype, vector<abstr_emp *> & v, ofstream & fo);
 void showEmployee(vector<abstr_emp *> & v);
 
 
@@ -69,12 +67,8 @@ int main(int nNumberofArgs, char* pszArgs[])
 
 	//*  Object Declaration
 	vector<abstr_emp *> emp;
-	
-	ofstream fin;
-	ifstream fout;
-
-	fin.open(filename);
-	fout.open(filename);
+	ifstream fin;
+	ofstream fout;
 
 	//*  Main Code
 	
@@ -90,17 +84,18 @@ int main(int nNumberofArgs, char* pszArgs[])
 				cout << endl;
 				cout << "You have chosen Initial Data Creation!" << endl;
 				cout << "(warning, this will erase anything previously done!)" << endl;
-				
 				cout << endl;
 				system("PAUSE");
 				cout << endl;
-
-				initialRun();
+				initialRun(fout, filename, emp);
 				break;
 			case 'B':	
 				cout << endl;
 				cout << "You have chosen to add data to an existing file" << endl;
-				subsequentRun();
+				cout << endl;
+				system("PAUSE");
+				cout << endl;
+				subsequentRun(fout, fin, filename, emp);
 				break;
 			case 'Q': 
 				cout << "Quitter" << endl << endl;
@@ -127,7 +122,7 @@ int main(int nNumberofArgs, char* pszArgs[])
 
 //********************************
 //
-//	Function #? - Main Menu Selection
+//	Function #1 - Main Menu Selection
 //
 //********************************
 
@@ -166,127 +161,7 @@ char mainMenu()
 
 //********************************
 //
-//	Function #2
-//
-//********************************
-
-void initialRun(ofstream & fo, const string & fn)
-{
-
-	//*  Variable Declaration
-	char choice = '\0';
-	vector<abstr_emp *> empin;
-
-	//*  Main Code
-
-	// Data Collection Sequence
-	while (choice != 'Q')
-	{
-
-		choice = menu();
-		
-		if (choice != 'Q')
-		{
-			cout << endl;
-			addEmployee(choice, empin);
-		}
-		
-	}
-
-	// Display Data Entries
-	showEmployee(empin);
-
-	// Write Data to New File
-	fo.open(fn);
-
-	if (!fo.is_open())
-	{
-
-		cerr << "Could Not Open " << fn << endl;
-		fo.clear();
-		
-	}
-	else
-	{
-
-		
-
-	}
-
-	//*  Program End
-	
-	return;
-
-}
-
-//********************************
-//
-//	Function #3
-//
-//********************************
-
-void subsequentRun()
-{
-
-	//*  Variable Declaration
-
-	//*  Main Code
-
-	//*  Program End
-
-
-
-}
-
-//********************************
-//
-//	Function #?
-//
-//********************************
-
-void createFile(ofstream & fi, ifstream & fo, const string & fn)
-{
-
-	//*  Variable Declaration
-
-
-
-	//*  Main Code
-	if (fi.is_open() || fo.is_open())
-	{
-		
-		fi.clear();
-		fo.clear();
-		fi.close();
-		fo.close();
-		fi.open(fn);
-		fo.open(fn);
-		fi.close();
-		fo.close();
-
-	}
-	else
-	{
-
-		fi.open(fn);
-		fi.close();
-		fo.open(fn);
-		fo.close();
-
-	}
-
-	cout << endl << endl;
-	cout << "The new file named " << fn << " has been created!";
-	
-	//*  Program End
-
-	return;
-
-}
-
-//********************************
-//
-//	Function #2 - Menu Selection
+//	Function #2 - Add Menu Selection
 //
 //********************************
 
@@ -295,17 +170,17 @@ char menu()
 
 	//*  Variable Declaration
 	char input = '\0';
-	
+
 	//*  Main Code
 	system("CLS");
 	cout << "Add data Menu Choices: " << endl << endl;
-	
+
 	cout << "a) Add a new EMPLOYEE entry" << endl;
 	cout << "b) Add a new MANAGER entry" << endl;
 	cout << "c) Add a new FINK entry" << endl;
 	cout << "d) Add a new HIGH FINK entry" << endl;
 	cout << "q) Quit data entry and return to main menu" << endl;
-	
+
 	cout << endl;
 	cout << "What is your choice: ";
 	cin >> input;
@@ -326,11 +201,122 @@ char menu()
 
 //********************************
 //
-//	Function #3
+//	Function #3 - Initial Data Run
 //
 //********************************
 
-void addEmployee(char etype, vector<abstr_emp *> & v)
+void initialRun(ofstream & fo, const string & fn, vector<abstr_emp *> & v)
+{
+
+	//*  Variable Declaration
+	char choice = '\0';
+	
+	//*  Main Code
+	v.clear();
+
+	// Prepare the file for writing
+	fo.open(fn);
+	
+	if (!fo.is_open())
+	{
+
+		cerr << "Could Not Open " << fn << endl;
+		fo.clear();
+		return;
+
+	}
+	
+	// Data Collection Sequence
+	while (choice != 'Q')
+	{
+
+		choice = menu();
+		
+		if (choice != 'Q')
+		{
+			cout << endl;
+			addEmployee(choice, v, fo);
+		}
+		
+	}
+
+	fo.clear();
+	fo.close();
+
+	// Display Data Entries
+	showEmployee(v);
+
+	//*  Program End
+	
+	cout << endl << endl;
+	system("PAUSE");
+
+	return;
+
+}
+
+//********************************
+//
+//	Function #3 - Subsequent Data Runs
+//
+//********************************
+
+void subsequentRun(ofstream & fo, ifstream & fi, const string & fn, vector<abstr_emp *> & v)
+{
+	//*  Variable Declaration
+	char choice = '\0';
+	
+	//*  Main Code
+	v.clear();
+
+	// Prepare the file for writing
+	fo.open(fn, ios_base::app);
+
+	if (!fo.is_open())
+	{
+
+		cerr << "Could Not Open " << fn << endl;
+		fo.clear();
+		return;
+
+	}
+
+	// Data Collection Sequence
+	while (choice != 'Q')
+	{
+
+		choice = menu();
+
+		if (choice != 'Q')
+		{
+			cout << endl;
+			addEmployee(choice, v, fo);
+		}
+
+	}
+
+	fo.clear();
+	fo.close();
+
+	// Display Data Entries
+	showEmployee(v);
+
+	//*  Program End
+
+	cout << endl << endl;
+	system("PAUSE");
+
+	return;
+
+}
+
+//********************************
+//
+//	Function #3 - Add Employee Data
+//
+//********************************
+
+void addEmployee(char etype, vector<abstr_emp *> & v, ofstream & fo)
 {
 
 	//*  Variable Declaration
@@ -352,6 +338,8 @@ void addEmployee(char etype, vector<abstr_emp *> & v)
 		{
 			employee * tempe = new employee();
 			tempe->SetAll();
+			fo << "employee" << endl;
+			tempe->WriteAll(fo);
 			v.push_back(tempe);
 			break;
 		}
@@ -359,6 +347,8 @@ void addEmployee(char etype, vector<abstr_emp *> & v)
 		{
 			manager * tempm = new manager();
 			tempm->SetAll();
+			fo << "manager" << endl;
+			tempm->WriteAll(fo);
 			v.push_back(tempm);
 			break;
 		}
@@ -366,6 +356,8 @@ void addEmployee(char etype, vector<abstr_emp *> & v)
 		{
 			fink * tempf = new fink();
 			tempf->SetAll();
+			fo << "fink" << endl;
+			tempf->WriteAll(fo);
 			v.push_back(tempf);
 			break;
 		}
@@ -373,6 +365,8 @@ void addEmployee(char etype, vector<abstr_emp *> & v)
 		{
 			highfink * temphf = new highfink();
 			temphf->SetAll();
+			fo << "highfink" << endl;
+			temphf->WriteAll(fo);
 			v.push_back(temphf);
 			break;
 		}

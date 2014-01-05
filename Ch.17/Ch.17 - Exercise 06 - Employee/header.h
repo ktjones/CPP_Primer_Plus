@@ -35,6 +35,7 @@ class abstr_emp
 		abstr_emp(const std::string & fn, const std::string & ln, const std::string & j);
 		virtual void ShowAll() const; // labels and shows all data
 		virtual void SetAll(); // prompts user for values
+		virtual void WriteAll(std::ofstream & os); // writes values to file
 		friend std::ostream & operator<<(std::ostream & os, const abstr_emp & e);
 		// just displays first and last name
 		virtual ~abstr_emp() = 0; // virtual base class
@@ -49,6 +50,7 @@ class employee : public abstr_emp
 		employee(const std::string & fn, const std::string & ln, const std::string & j);
 		virtual void ShowAll() const;
 		virtual void SetAll();
+		virtual void WriteAll(std::ofstream & os); // writes values to file
 
 };
 
@@ -68,6 +70,7 @@ class manager: virtual public abstr_emp
 		manager(const manager & m);
 		virtual void ShowAll() const;
 		virtual void SetAll();
+		virtual void WriteAll(std::ofstream & os); // writes values to file
 };
 
 class fink: virtual public abstr_emp
@@ -86,6 +89,7 @@ class fink: virtual public abstr_emp
 		fink(const fink & e);
 		virtual void ShowAll() const;
 		virtual void SetAll();
+		virtual void WriteAll(std::ofstream & os); // writes values to file
 
 };
 
@@ -100,6 +104,7 @@ class highfink: public manager, public fink // management fink
 		highfink(const highfink & h);
 		virtual void ShowAll() const;
 		virtual void SetAll();
+		virtual void WriteAll(std::ofstream & os); // writes values to file
 };
 
 

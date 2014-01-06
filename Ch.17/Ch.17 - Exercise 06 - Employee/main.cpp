@@ -50,6 +50,7 @@ void initialRun(ofstream & fo, const string & fn, vector<abstr_emp *> & v);
 void subsequentRun(ofstream & fo, ifstream & fi, const string & fn, vector<abstr_emp *> & v);
 void addEmployee(char etype, vector<abstr_emp *> & v, ofstream & fo);
 void showEmployee(vector<abstr_emp *> & v);
+void displayFileData(ifstream & fi, string & fn, vector<abstr_emp *> & v);
 
 
 //***************************************************************************************************
@@ -97,6 +98,14 @@ int main(int nNumberofArgs, char* pszArgs[])
 				cout << endl;
 				subsequentRun(fout, fin, filename, emp);
 				break;
+			case 'C':
+				cout << endl;
+				cout << "You have chosen to display the existing data in the file" << endl;
+				cout << endl;
+				system("PAUSE");
+				cout << endl;
+				displayFileData(fin, filename, emp);
+				break;
 			case 'Q': 
 				cout << "Quitter" << endl << endl;
 				continue;
@@ -139,6 +148,7 @@ char mainMenu()
 
 	cout << "a) Initial Data Creation" << endl;
 	cout << "b) Add New Data" << endl;
+	cout << "c) Display current file data" << endl;
 	cout << "q) Exit program" << endl;
 
 	cout << endl;
@@ -147,7 +157,7 @@ char mainMenu()
 
 	input = tolower(input);
 
-	if ((input < 'a' || input > 'b') && input != 'q')
+	if ((input < 'a' || input > 'c') && input != 'q')
 	{
 		input = 'q';
 	}
@@ -339,8 +349,8 @@ void addEmployee(char etype, vector<abstr_emp *> & v, ofstream & fo)
 			employee * tempe = new employee();
 			tempe->SetAll();
 			fo << "employee" << endl;
-			tempe->WriteAll(fo);
 			v.push_back(tempe);
+			tempe->WriteAll(fo);
 			break;
 		}
 		case 'B':	//manager
@@ -395,12 +405,105 @@ void showEmployee(vector<abstr_emp *> & v)
 	{
 
 		x->ShowAll();
-		cout << endl << endl;
-
+		
 	}
 
 	//*  Program End
 
+	return;
+
+}
+
+//********************************
+//
+//	Function #5 - Read Data From File
+//
+//********************************
+
+void displayFileData(ifstream & fi, string & fn, vector<abstr_emp *> & v)
+{
+
+	//*  Variable Declaration
+	string input;
+
+	//*  Main Code
+	v.clear();
+	
+	fi.open(fn);
+
+	if (!fi.is_open())
+	{
+
+		cerr << "Could Not Open " << fn << endl;
+		fi.clear();
+		return;
+
+	}
+
+	while (!fi.eof())
+	{
+
+		getline(fi, input);
+
+		if (input == "employee")
+		{
+			
+			employee * tempe = new employee();
+			tempe->GetAll(fi);
+			v.push_back(tempe);
+					
+		}
+		else if (input == "manager")
+		{
+
+			manager * tempm = new manager();
+			tempm->GetAll(fi);
+			v.push_back(tempm);
+
+		}
+		else if (input == "fink")
+		{
+
+			fink * tempf = new fink();
+			tempf->GetAll(fi);
+			v.push_back(tempf);
+
+		}
+		else if (input == "highfink")
+		{
+
+			highfink * temphf = new highfink();
+			temphf->GetAll(fi);
+			v.push_back(temphf);
+
+		}
+		else if (input == "")
+		{
+
+			continue;
+
+		}
+		else
+		{
+
+			cerr << "Did not match the input to any known type!" << endl;
+			//system("PAUSE");
+		}
+
+	}
+
+	// Display the vector data
+
+	showEmployee(v);
+	
+	//*  Program End
+
+	fi.clear();
+	fi.close();
+
+	cout << endl;
+	cout << "Please review the data!" << endl << endl;
+	system("PAUSE");
 	return;
 
 }

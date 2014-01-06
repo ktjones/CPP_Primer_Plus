@@ -77,6 +77,22 @@ void abstr_emp::WriteAll(std::ofstream & os) // prompts user for values
 
 }
 
+void abstr_emp::GetAll(std::ifstream & is) //Reads data from file
+{
+
+	string input;
+
+	getline(is, input);
+	fname = input;
+	getline(is, input);
+	lname = input;
+	getline(is, input);
+	job = input;
+
+	return;
+
+}
+
 std::ostream & operator<<(std::ostream & os, const abstr_emp & e)
 {
 
@@ -121,6 +137,15 @@ void employee::WriteAll(std::ofstream & os) // writes values to file
 {
 
 	abstr_emp::WriteAll(os);
+
+}
+
+void employee::GetAll(std::ifstream & is) //Reads data from file
+{
+
+	abstr_emp::GetAll(is);
+
+	return;
 
 }
 
@@ -175,6 +200,19 @@ void manager::WriteAll(std::ofstream & os)
 
 }
 
+void manager::GetAll(std::ifstream & is) //Reads data from file
+{
+
+	abstr_emp::GetAll(is);
+	
+	is >> inchargeof;
+
+	is.get();
+
+	return;
+
+}
+
 /*****************************************************************************/
 // class fink: virtual public abstr_emp
 
@@ -223,6 +261,20 @@ void fink::WriteAll(std::ofstream & os) // writes values to file
 
 	abstr_emp::WriteAll(os);
 	os << reportsto << endl;
+
+}
+
+void fink::GetAll(std::ifstream & is) //Reads data from file
+{
+
+	string input;
+
+	abstr_emp::GetAll(is);
+
+	getline(is, input);
+	reportsto = input;
+
+	return;
 
 }
 
@@ -289,5 +341,24 @@ void highfink::WriteAll(std::ofstream & os)
 	abstr_emp::WriteAll(os);
 	os << InChargeOf() << endl;
 	os << ReportsTo() << endl;
+
+}
+
+void highfink::GetAll(std::ifstream & is) //Reads data from file
+{
+
+	string input;
+
+	abstr_emp::GetAll(is);
+
+	is >> InChargeOf();
+
+	is.get();
+
+	getline(is, input);
+
+	ReportsTo() = input;
+
+	return;
 
 }

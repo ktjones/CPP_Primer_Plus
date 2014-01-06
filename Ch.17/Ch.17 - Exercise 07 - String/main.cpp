@@ -46,7 +46,7 @@ using namespace std;
 //
 //********************************
 
-
+void ShowStr(const string & str);
 
 
 
@@ -113,10 +113,34 @@ int main(int nNumberofArgs, char* pszArgs[])
 //
 //***************************************************************************************************
 
+
 //********************************
 //
-//	Function #1
+//	Function #1 - Show String
 //
+//********************************
+
+void ShowStr(const string & str)
+{
+
+	//*  Variable Declaration
+
+
+	//*  Main Code
+
+	cout << str << endl;
+
+	//*  Program End
+
+	return;
+}
+
+
+//********************************
+//
+//	Function #?
+//
+//********************************
 
     //*  Variable Declaration
 

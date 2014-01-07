@@ -25,24 +25,21 @@ using namespace std;
 //
 //***************************************************************************************************
 
-store::store()
+Store::Store(ofstream & os) : os(os)
 {
+
 
 
 }
 
-store::store(ofstream & os)
+const string & Store::operator()(const string & str)
 {
-	
+
+	int len = str.size();
+
 	os.write((char *)&len, sizeof(std::size_t));
-	os.write(s.data(), len);
-
-	return;
-}
-
-const string & store::operator()(const string & str)
-{
-
+	os.write(str.data(), len);
+	
 	return str;
 	
 }

@@ -30,17 +30,16 @@ using namespace std;
 //
 //*******************************
 
-class store
+class Store
 {
 
 	private:
 
-
+		ofstream & os;
 
 	public:
 
-		store();
-		store(ofstream & os);
+		Store(ofstream & os);
 		const string & operator()(const string & str);
 
 };

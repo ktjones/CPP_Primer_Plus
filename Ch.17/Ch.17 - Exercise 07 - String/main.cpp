@@ -16,6 +16,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "header.h"
 
 using namespace std;
 
@@ -47,7 +48,7 @@ using namespace std;
 //********************************
 
 void ShowStr(const string & str);
-
+void GetStrs(ifstream & is, vector<string> & v);
 
 
 //***************************************************************************************************
@@ -82,6 +83,7 @@ int main(int nNumberofArgs, char* pszArgs[])
 	for_each(vostr.begin(), vostr.end(), Store(fout));
 	fout.close();
 	
+	
 	// recover file contents
 	vector<string> vistr;
 	
@@ -98,6 +100,7 @@ int main(int nNumberofArgs, char* pszArgs[])
 	cout << "\nHere are the strings read from the file:\n";
 	for_each(vistr.begin(), vistr.end(), ShowStr);
 	
+
 	//*  Program End
 	//   - wait until user is ready before terminating program
 	//   - to allow the user to see the program results
@@ -135,6 +138,45 @@ void ShowStr(const string & str)
 	return;
 }
 
+
+//********************************
+//
+//	Function #2 - Get info from file
+//
+//********************************
+
+void GetStrs(ifstream & is, vector<string> & v)
+{
+
+	//*  Variable Declaration
+	int len;
+	string input;
+	char ch;
+
+	//*  Main Code
+	while (!is.eof())
+	{
+		//read the string length
+		is.read((char *)&len, sizeof(std::size_t));
+
+		input = "";
+		//Read the info into the string
+		for (int x = 0; x < len; x++)
+		{
+			
+			is.get(ch);
+			input = input + ch;
+
+		}
+
+		v.push_back(input);
+		len = 0;
+
+	}
+	//*  Program End
+	
+	return;
+}
 
 //********************************
 //

@@ -41,7 +41,7 @@ public:
 		std::string zcode;
 	};
 private:
-	Info *pi;
+	Info * pi;
 public:
 	Cpmv();
 	Cpmv(std::string q, std::string z);
@@ -54,8 +54,17 @@ public:
 	void Display() const;
 };
 
-Cpmv::Cpmv() : pi(nullptr)
+Cpmv::Cpmv()
 {
+
+	pi = new Info;
+
+	pi->qcode = "";
+	pi->zcode = "";
+
+	cout << endl;
+	cout << "Ctor: Default";
+	cout << endl;
 
 }
 
@@ -66,6 +75,10 @@ Cpmv::Cpmv(std::string q, std::string z)
 
 	pi->qcode = q;
 	pi->zcode = z;
+
+	cout << endl;
+	cout << "Ctor: Strings";
+	cout << endl;
 
 	return;
 
@@ -79,6 +92,10 @@ Cpmv::Cpmv(const Cpmv & cp)
 	pi->qcode = cp.pi->qcode;
 	pi->zcode = cp.pi->zcode;
 
+	cout << endl;
+	cout << "Ctor: Copy";
+	cout << endl;
+
 	return;
 
 }
@@ -90,6 +107,10 @@ Cpmv::Cpmv(Cpmv && mv)
 
 	mv.pi = nullptr;
 	
+	cout << endl;
+	cout << "Ctor: Move";
+	cout << endl;
+
 	return;
 
 }
@@ -98,6 +119,12 @@ Cpmv::~Cpmv()
 {
 
 	delete pi;
+
+	cout << endl;
+	cout << "Dtor: Default";
+	cout << endl;
+
+	return;
 
 }
 
@@ -111,6 +138,10 @@ Cpmv & Cpmv::operator=(const Cpmv & cp)
 	pi->qcode = cp.pi->qcode;
 	pi->zcode = cp.pi->zcode;
 
+	cout << endl;
+	cout << "Operator=: Copy";
+	cout << endl;
+
 	return *this;
 
 }
@@ -123,6 +154,10 @@ Cpmv & Cpmv::operator=(Cpmv && mv)
 	pi = mv.pi;
 
 	mv.pi = nullptr;
+
+	cout << endl;
+	cout << "Operator=: Move";
+	cout << endl;
 
 	return *this;
 
@@ -138,6 +173,10 @@ Cpmv Cpmv::operator+(const Cpmv & obj) const
 
 	temp.pi->qcode = pi->qcode + obj.pi->qcode;
 	temp.pi->zcode = pi->zcode + obj.pi->zcode;
+
+	cout << endl;
+	cout << "Operator+: Copy";
+	cout << endl;
 
 	return temp;
 
@@ -176,9 +215,21 @@ void Cpmv::Display() const
 int main(int nNumberofArgs, char* pszArgs[])
 {
 	//*  Variable Declaration
-
+	
 
 	//*  Main Code
+	Cpmv object1 = {};
+	object1.Display();
+
+	Cpmv object2 = { "bob", "sue" };
+	object2.Display();
+
+	object1 = object2;
+	object1.Display();
+
+	Cpmv object3 = {};
+	object3 = object1 + object2;
+	object3.Display();
 
 
 	//*  Program End

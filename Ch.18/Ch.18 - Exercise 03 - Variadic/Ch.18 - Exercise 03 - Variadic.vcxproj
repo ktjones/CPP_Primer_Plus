@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{998D67B2-7F9F-43E1-9A5A-2630C42C84E3}</ProjectGuid>
+    <ProjectGuid>{74EEC74B-3137-4196-9C61-0143B240970D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Ch18Exercise01</RootNamespace>
+    <RootNamespace>Ch18Exercise03Variadic</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
